@@ -1,0 +1,11 @@
+site_name: saja_expo
+site_description: Internal API between expo and myswissalps.
+repo_url: https://github.com/CDE-UNIBE/saja-expo-api
+site_dir: site
+copyright: Copyright &copy; 2015, <a href="https://github.com/CDE-UNIBE">CDE-UNIBE</a>.
+
+pages:
+  - Home: 'index.md'
+  - API:
+    - Authentication: 'api/authentication.md'
+    - Users: 'api/users.md'

@@ -1,0 +1,10 @@
+[run]
+branch = True
+omit = *migrations*,
+       *urls*,
+       *test*,
+       *admin*,
+       ./saja_expo/config/*,
+       ./saja_expo/manage.py,
+       ./saja_expo/wsgi.py,
+       *__init__*
