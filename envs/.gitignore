@@ -1,0 +1,7 @@
+# Ignore everything
+*
+
+# But not the required config files that will be the same everywhere (as of now)
+!.gitignore
+!DJANGO_CONFIGURATION
+!DJANGO_SETTINGS_MODULE

@@ -1,12 +1,15 @@
-import os
-from os.path import join
-
+# -*- coding: utf-8 -*-
+from os.path import join, abspath, dirname
+from django.utils.translation import ugettext_lazy as _
 from configurations import Configuration, values
-
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 class Common(Configuration):
+    """
+    Basic configuration
+    """
+
+    BASE_DIR = dirname(dirname(dirname(abspath(__file__))))
 
     INSTALLED_APPS = (
         'django.contrib.admin',
@@ -34,7 +37,7 @@ class Common(Configuration):
         'django.middleware.security.SecurityMiddleware'
     )
 
-    ROOT_URLCONF = 'urls'
+    ROOT_URLCONF = 'base.urls'
 
     TEMPLATES = [
         {
@@ -52,11 +55,8 @@ class Common(Configuration):
         },
     ]
 
-    SECRET_KEY = 'Not a secret'
-    WSGI_APPLICATION = 'wsgi.application'
-
-    # Allow for less strict handling of urls
-    APPEND_SLASH = values.BooleanValue(True)
+    SECRET_KEY = values.SecretValue()
+    WSGI_APPLICATION = 'base.wsgi.application'
 
     # Migrations
     MIGRATION_MODULES = {
@@ -65,34 +65,30 @@ class Common(Configuration):
 
     # Set DEBUG to False as a default for safety
     # https://docs.djangoproject.com/en/dev/ref/settings/#debug
-    DEBUG = values.BooleanValue(False)
-    for config in TEMPLATES:
-        config['OPTIONS']['debug'] = DEBUG
-
-    # Email
-    EMAIL_BACKEND = values.Value('django.core.mail.backends.smtp.EmailBackend')
+    DEBUG = values.BooleanValue(default=False)
 
     MANAGERS = (
         ("Author", 'sebastian.manger@cde.unibe.ch'),
     )
 
     # Postgres
-    DATABASES = values.DatabaseURLValue('postgres://localhost/saja_expo')
+    DATABASES = values.DatabaseURLValue()
 
-    # General
-    APPEND_SLASH = False
-    TIME_ZONE = 'UTC'
-    LANGUAGE_CODE = 'en-us'
-    SITE_ID = 1
-    # If you set this to False, Django will make some optimizations so as not
-    # to load the internationalization machinery.
-    USE_I18N = False
+    # Time and i18n settings
+    TIME_ZONE = 'Europe/Zurich'
+    USE_I18N = True
     USE_L10N = True
     USE_TZ = True
+    SITE_ID = 1
     LOGIN_REDIRECT_URL = '/'
 
+    # English only
+    LANGUAGES = (
+        ('en', _('English')),
+    )
+
     # Static Files
-    STATIC_ROOT = join(os.path.dirname(BASE_DIR), 'staticfiles')
+    STATIC_ROOT = join(dirname(BASE_DIR), 'staticfiles')
     STATIC_URL = '/static/'
     STATICFILES_FINDERS = (
         'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -100,7 +96,7 @@ class Common(Configuration):
     )
 
     # Media files
-    MEDIA_ROOT = join(os.path.dirname(BASE_DIR), 'media')
+    MEDIA_ROOT = join(dirname(BASE_DIR), 'media')
     MEDIA_URL = '/media/'
 
     # Logging
@@ -143,19 +139,10 @@ class Common(Configuration):
 
     # Django Rest Framework
     REST_FRAMEWORK = {
-        'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-        'PAGE_SIZE': 100,
         'DATETIME_FORMAT': '%Y-%m-%dT%H:%M:%S%z',
         'DEFAULT_RENDERER_CLASSES': (
             'rest_framework.renderers.JSONRenderer',
             'rest_framework.renderers.BrowsableAPIRenderer',
         ),
-        'DEFAULT_PERMISSION_CLASSES': [
-            'rest_framework.permissions.IsAuthenticated',
-        ],
-        'DEFAULT_AUTHENTICATION_CLASSES': (
-            'rest_framework.authentication.SessionAuthentication',
-            'rest_framework.authentication.TokenAuthentication',
-        )
     }
 
