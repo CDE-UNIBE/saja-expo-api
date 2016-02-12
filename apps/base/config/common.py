@@ -23,7 +23,8 @@ class Common(Configuration):
         'rest_framework',            # utilities for rest apis
         'rest_framework.authtoken',  # token authentication
 
-        # Your apps
+        # Custom apps
+        'api',
     )
 
     # https://docs.djangoproject.com/en/1.8/topics/http/middleware/
