@@ -21,6 +21,7 @@ class Log(models.Model):
     finished = models.DateTimeField(null=True, blank=True)
     nfc_id = models.CharField(max_length=255)
     tag_id = models.CharField(max_length=50)
+    history = models.TextField(default='', blank=True)
 
     def __unicode__(self):
         return self.id
@@ -40,10 +41,9 @@ class Log(models.Model):
             client = APIClient().request(self.data)
             if client:
                 self.finished = now()
-                self.save()
             else:
-                # todo: which system will be used for logging?
-                pass
+                self.history += 'Unsucessful attempt: {}\n'.format(now())
+            self.save()
 
     class Meta:
         ordering = ['-received']
