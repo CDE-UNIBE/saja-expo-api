@@ -147,3 +147,12 @@ class Common(Configuration):
         ),
     }
 
+    MYSWISSALPS_API_URL = values.Value(
+        environ_prefix='',
+        default='http://www.myswissalps.ch'
+    )
+    API_CALL_RETRIES = values.IntegerValue(
+        environ_prefix='',
+        default=5
+    )
+

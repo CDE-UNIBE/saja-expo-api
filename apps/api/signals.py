@@ -8,6 +8,6 @@ from .models import Log
 @receiver(post_save, sender=Log)
 def send_to_external_api(instance, *args, **kwargs):
     """
-    Stub.
+    Submit the data to myswissalps.
     """
-    pass
+    instance.submit_to_myswissalps()
