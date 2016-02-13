@@ -1,5 +1,9 @@
+from rest_framework.generics import CreateAPIView
 from rest_framework.response import Response
+from rest_framework.reverse import reverse
 from rest_framework.views import APIView
+
+from .serializers import LogSerializer
 
 
 class APIRoot(APIView):
@@ -13,6 +17,15 @@ class APIRoot(APIView):
 
     def get(self, request, format=None):
         urls = {
-
+            'logs': reverse('log-create', request=request, format=format),
         }
         return Response(urls)
+
+
+class CreateLogView(CreateAPIView):
+    """
+    Create new logs.
+
+    Pass nfc_id and tag_id in the request body.
+    """
+    serializer_class = LogSerializer
