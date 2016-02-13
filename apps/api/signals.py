@@ -6,8 +6,11 @@ from .models import Log
 
 
 @receiver(post_save, sender=Log)
-def send_to_external_api(instance, *args, **kwargs):
+def send_to_external_api(instance, created, *args, **kwargs):
     """
     Submit the data to myswissalps.
+    :param created: bool
+    :param instance: api.models.Log
     """
-    instance.submit_to_myswissalps()
+    if created:
+        instance.submit_to_myswissalps()

@@ -3,6 +3,7 @@ import logging
 import requests
 from django.conf import settings
 from requests.adapters import HTTPAdapter
+from requests.exceptions import ConnectionError
 
 logger = logging.getLogger(__name__)
 
@@ -31,12 +32,17 @@ class APIClient:
         s.mount('http://stackoverflow.com', HTTPAdapter(
             max_retries=settings.API_CALL_RETRIES)
         )
-        response = s.request(
-            method='post',
-            url=self.url,
-            data=data,
-            **kwargs
-        )
+        try:
+            response = s.request(
+                method='post',
+                url=self.url,
+                data=data,
+                **kwargs
+            )
+        except ConnectionError as e:
+            logger.error(e)
+            return False
+
         return response
 
     def _parse_response(self, response, many):
