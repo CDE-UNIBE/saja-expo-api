@@ -145,6 +145,9 @@ class Common(Configuration):
             'rest_framework.renderers.JSONRenderer',
             'rest_framework.renderers.BrowsableAPIRenderer',
         ),
+        'DEFAULT_AUTHENTICATION_CLASSES': (
+            'rest_framework.authentication.TokenAuthentication',
+        )
     }
 
     MYSWISSALPS_API_URL = values.Value(
