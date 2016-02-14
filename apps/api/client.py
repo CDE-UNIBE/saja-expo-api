@@ -43,12 +43,12 @@ class APIClient:
             logger.error(e)
             return False
 
-        logger.debug(u"{} {}: {}".format(
+        logger.info(u"{} {}: {}".format(
             response.status_code, response.url, data)
         )
         return response
 
     def _parse_response(self, response, many):
-        logger.debug(response.text)
+        logger.info(response.text)
         # Maybe: serialize response, if necessary.
         return False if response.status_code is not requests.codes.ok else True

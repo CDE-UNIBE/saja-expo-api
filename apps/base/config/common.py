@@ -138,14 +138,14 @@ class Common(Configuration):
             },
         },
         'loggers': {
+            '': {
+                'handlers': ['file'],
+                'level': 'INFO',
+                'propagate': True
+            },
             'django.request': {
                 'handlers': ['file'],
                 'level': 'ERROR',
-                'propagate': True
-            },
-            'api': {
-                'handlers': ['file'],
-                'level': 'DEBUG',
                 'propagate': True
             },
         },

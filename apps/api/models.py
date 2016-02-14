@@ -48,7 +48,7 @@ class Log(models.Model):
             else:
                 message = 'Unsucessful attempt: {}\n'.format(now())
                 self.history += message
-                logger.error(message)
+                logger.info(message)
             self.save()
 
     class Meta:
