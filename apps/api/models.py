@@ -1,8 +1,12 @@
+import logging
+
 from django.db import models
 from django.utils.functional import cached_property
 from django.utils.timezone import now
 
 from .client import APIClient
+
+logger = logging.getLogger(__name__)
 
 
 class Log(models.Model):
@@ -42,7 +46,9 @@ class Log(models.Model):
             if client:
                 self.finished = now()
             else:
-                self.history += 'Unsucessful attempt: {}\n'.format(now())
+                message = 'Unsucessful attempt: {}\n'.format(now())
+                self.history += message
+                logger.error(message)
             self.save()
 
     class Meta:

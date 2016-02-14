@@ -128,14 +128,27 @@ class Common(Configuration):
                 'class': 'logging.StreamHandler',
                 'formatter': 'simple'
             },
+            'file': {
+                'level': 'INFO',
+                'class': 'logging.handlers.RotatingFileHandler',
+                'filename': 'logs/api.log',
+                'maxBytes': 1024 * 1024 * 10,  # 10 MB
+                'backupCount': 5,
+                'formatter': 'verbose',
+            },
         },
         'loggers': {
             'django.request': {
-                'handlers': ['mail_admins'],
+                'handlers': ['file'],
                 'level': 'ERROR',
                 'propagate': True
             },
-        }
+            'api': {
+                'handlers': ['file'],
+                'level': 'DEBUG',
+                'propagate': True
+            },
+        },
     }
 
     # Django Rest Framework

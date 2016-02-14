@@ -43,6 +43,9 @@ class APIClient:
             logger.error(e)
             return False
 
+        logger.debug(u"{} {}: {}".format(
+            response.status_code, response.url, data)
+        )
         return response
 
     def _parse_response(self, response, many):
