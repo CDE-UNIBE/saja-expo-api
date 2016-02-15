@@ -30,6 +30,6 @@ class CreateLogView(CreateAPIView):
 
     Pass nfc_id and tag_id in the request body.
     """
-    authentication_classes = (TokenAuthentication, )
-    permission_classes = (IsAuthenticated,)
+    # authentication_classes = (TokenAuthentication, )
+    # permission_classes = (IsAuthenticated, )
     serializer_class = LogSerializer
