@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.views import APIView
 
-from .serializers import LogSerializer
+from .serializers import LogSerializer, NFCRegisterSerializer
 
 
 class APIRoot(APIView):
@@ -19,6 +19,7 @@ class APIRoot(APIView):
 
     def get(self, request, format=None):
         urls = {
+            'register': reverse('register-nfc', request=request, format=format),
             'logs': reverse('log-create', request=request, format=format),
         }
         return Response(urls)
@@ -33,3 +34,9 @@ class CreateLogView(CreateAPIView):
     authentication_classes = (TokenAuthentication, )
     permission_classes = (IsAuthenticated, )
     serializer_class = LogSerializer
+
+
+class RegisterNFCView(CreateAPIView):
+    authentication_classes = (TokenAuthentication, )
+    permission_classes = (IsAuthenticated, )
+    serializer_class = NFCRegisterSerializer

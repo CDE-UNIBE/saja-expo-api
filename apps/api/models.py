@@ -5,8 +5,21 @@ from django.utils.functional import cached_property
 from django.utils.timezone import now
 
 from .client import APIClient
+from .validators import validate_registered_nfc_id
 
 logger = logging.getLogger(__name__)
+
+
+class NFCRegister(models.Model):
+    """
+    Relation between nfc and rucksack code is created when a new card is
+    registered at the front desk. Only the backpack id will be used for calls
+    to the external API.
+    """
+    created = models.DateTimeField(auto_now_add=True)
+    nfc_id = models.CharField(max_length=255)
+    backpack_id = models.CharField(max_length=6, unique=True)
+    language_id = models.IntegerField()
 
 
 class Log(models.Model):
@@ -23,7 +36,9 @@ class Log(models.Model):
     """
     received = models.DateTimeField(auto_now_add=True)
     finished = models.DateTimeField(null=True, blank=True)
-    nfc_id = models.CharField(max_length=255)
+    nfc_id = models.CharField(
+        max_length=255, validators=[validate_registered_nfc_id]
+    )
     tag_id = models.CharField(max_length=50)
     history = models.TextField(default='', blank=True)
 
