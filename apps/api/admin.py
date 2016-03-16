@@ -6,7 +6,7 @@ from .models import Log, NFCRegister
 
 @register(NFCRegister)
 class NFCRegisterAdmin(admin.ModelAdmin):
-    list_display = ('nfc_id', 'created', )
+    list_display = ('nfc_id', 'created', 'finished', )
 
 
 @register(Log)

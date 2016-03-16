@@ -10,6 +10,7 @@ def register_nfc_at_api(instance, created, *args, **kwargs):
     if created:
         instance.submit_to_myswissalps()
 
+
 @receiver(post_save, sender=Log)
 def send_to_external_api(instance, created, *args, **kwargs):
     """

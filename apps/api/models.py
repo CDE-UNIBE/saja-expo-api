@@ -10,7 +10,33 @@ from .validators import validate_registered_nfc_id
 logger = logging.getLogger(__name__)
 
 
-class NFCRegister(models.Model):
+class APISubmitBase(models.Model):
+    """
+    Shared attributes and method for calling the API and logging the results.
+    """
+    received = models.DateTimeField(auto_now_add=True)
+    finished = models.DateTimeField(null=True, blank=True)
+    history = models.TextField(default='', blank=True)
+
+    def submit_to_myswissalps(self):
+        """
+        Submit the data to the API from myswissalps.
+        """
+        if not self.finished:
+            client = APIClient().request(endpoint=self.endpoint, data=self.data)
+            if client:
+                self.finished = now()
+            else:
+                message = 'Unsucessful attempt: {}\n'.format(now())
+                self.history += message
+                logger.info(message)
+            self.save()
+
+    class Meta:
+        abstract = True
+
+
+class NFCRegister(APISubmitBase):
     """
     Relation between nfc and rucksack code is created when a new card is
     registered at the front desk. Only the backpack id will be used for calls
@@ -21,6 +47,10 @@ class NFCRegister(models.Model):
     backpack_id = models.CharField(max_length=6, unique=True)
     language_id = models.IntegerField()
 
+    @property
+    def endpoint(self):
+        return 'init'
+
     @cached_property
     def data(self):
         return {
@@ -28,11 +58,8 @@ class NFCRegister(models.Model):
             'languageId': self.language_id,
         }
 
-    def submit_to_myswissalps(self):
-        client = APIClient().request(endpoint='init', data=self.data)
 
-
-class Log(models.Model):
+class Log(APISubmitBase):
     """
     Log all requests from the internal stands. Requests are then made to
     the external API with a signal.
@@ -44,17 +71,18 @@ class Log(models.Model):
     Flag: aborted
     model method: external request (10 times)
     """
-    received = models.DateTimeField(auto_now_add=True)
-    finished = models.DateTimeField(null=True, blank=True)
     nfc_id = models.CharField(
         max_length=255, validators=[validate_registered_nfc_id]
     )
     content_type = models.CharField(max_length=30)
     perma_id = models.CharField(max_length=50)
-    history = models.TextField(default='', blank=True)
 
     def __unicode__(self):
         return self.id
+
+    @property
+    def endpoint(self):
+        return 'init'
 
     @cached_property
     def backpack_id(self):
@@ -67,20 +95,6 @@ class Log(models.Model):
             'contentType': self.content_type,
             'permaId': self.perma_id
         }
-
-    def submit_to_myswissalps(self):
-        """
-        Submit the data to the API from myswissalps.
-        """
-        if not self.finished:
-            client = APIClient().request(endpoint='item', data=self.data)
-            if client:
-                self.finished = now()
-            else:
-                message = 'Unsucessful attempt: {}\n'.format(now())
-                self.history += message
-                logger.info(message)
-            self.save()
 
     class Meta:
         ordering = ['-received']
