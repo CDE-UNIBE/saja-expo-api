@@ -64,5 +64,6 @@ ids are allowed.
 
   {
       "nfc_id": "<foo>",
-      "tag_id": "<bar>",
+      "content_type": "<bar>",
+      "perma_id": "1"
   }

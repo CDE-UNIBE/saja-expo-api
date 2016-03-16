@@ -17,9 +17,19 @@ class NFCRegister(models.Model):
     to the external API.
     """
     created = models.DateTimeField(auto_now_add=True)
-    nfc_id = models.CharField(max_length=255)
+    nfc_id = models.CharField(max_length=255, unique=True)
     backpack_id = models.CharField(max_length=6, unique=True)
     language_id = models.IntegerField()
+
+    @cached_property
+    def data(self):
+        return {
+            'code': self.backpack_id,
+            'languageId': self.language_id,
+        }
+
+    def submit_to_myswissalps(self):
+        client = APIClient().request(endpoint='init', data=self.data)
 
 
 class Log(models.Model):
@@ -39,17 +49,23 @@ class Log(models.Model):
     nfc_id = models.CharField(
         max_length=255, validators=[validate_registered_nfc_id]
     )
-    tag_id = models.CharField(max_length=50)
+    content_type = models.CharField(max_length=30)
+    perma_id = models.CharField(max_length=50)
     history = models.TextField(default='', blank=True)
 
     def __unicode__(self):
         return self.id
 
     @cached_property
+    def backpack_id(self):
+        return NFCRegister.objects.get(nfc_id=self.nfc_id)
+
+    @cached_property
     def data(self):
         return {
-            'nfc': self.nfc_id,
-            'tag_id': self.tag_id
+            'code': self.backpack_id,
+            'contentType': self.content_type,
+            'permaId': self.perma_id
         }
 
     def submit_to_myswissalps(self):
@@ -57,7 +73,7 @@ class Log(models.Model):
         Submit the data to the API from myswissalps.
         """
         if not self.finished:
-            client = APIClient().request(self.data)
+            client = APIClient().request(endpoint='item', data=self.data)
             if client:
                 self.finished = now()
             else:

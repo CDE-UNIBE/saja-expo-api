@@ -165,7 +165,7 @@ class Common(Configuration):
 
     MYSWISSALPS_API_URL = values.Value(
         environ_prefix='',
-        default='http://www.myswissalps.ch'
+        default='https://api.myswissalps.ch/v1/rucksack/'
     )
     API_CALL_RETRIES = values.IntegerValue(
         environ_prefix='',

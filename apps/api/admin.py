@@ -11,4 +11,4 @@ class NFCRegisterAdmin(admin.ModelAdmin):
 
 @register(Log)
 class LogAdmin(admin.ModelAdmin):
-    list_display = ('id', 'received', 'finished', 'nfc_id', 'tag_id', )
+    list_display = ('id', 'received', 'finished', 'nfc_id', )

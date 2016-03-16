@@ -18,7 +18,7 @@ class APIClient:
         self.url = settings.MYSWISSALPS_API_URL
         super(APIClient, self).__init__(*args, **kwargs)
 
-    def request(self, data, **kwargs):
+    def request(self, endpoint, data, **kwargs):
         """
         :param method: The HTTP method to be used when querying the webservice.
         :param url: The url to be queried.
@@ -29,13 +29,13 @@ class APIClient:
         """
         # todo: add exception handling.
         s = requests.Session()
-        s.mount('http://stackoverflow.com', HTTPAdapter(
+        s.mount(self.url, HTTPAdapter(
             max_retries=settings.API_CALL_RETRIES)
         )
         try:
             response = s.request(
-                method='post',
-                url=self.url,
+                method='get',
+                url='{url}{endpoint}'.format(url=self.url, endpoint=endpoint),
                 data=data,
                 **kwargs
             )
