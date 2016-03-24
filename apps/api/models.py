@@ -55,6 +55,7 @@ class NFCRegister(APISubmitBase):
     def data(self):
         return {
             'code': self.backpack_id,
+            'nfcId': self.nfc_id,
             'languageId': self.language_id,
         }
 
@@ -74,8 +75,7 @@ class Log(APISubmitBase):
     nfc_id = models.CharField(
         max_length=255, validators=[validate_registered_nfc_id]
     )
-    content_type = models.CharField(max_length=30)
-    perma_id = models.CharField(max_length=50)
+    station_id = models.CharField(max_length=20)
 
     def __unicode__(self):
         return self.id
@@ -92,8 +92,7 @@ class Log(APISubmitBase):
     def data(self):
         return {
             'code': self.backpack_id,
-            'contentType': self.content_type,
-            'permaId': self.perma_id
+            'stationId': self.station_id
         }
 
     class Meta:
