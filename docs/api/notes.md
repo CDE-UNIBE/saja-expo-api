@@ -18,32 +18,6 @@ Infrastructure
 Endpoint documentation
 ======================
 
-
-Register
---------
-Register the connection between a nfc id, backpack id and language. Backpack ids
-are unique.
-
-
-Example request:
-
-* URL:
-  http://saja-expo-api.local/api/v1/register/
-
-* Request header:
-  Content-Type: application/json
-  Authentication: Token <token>
-
-* Request body:
-  {
-      "nfc_id": "<foo>",
-      "backpack_id": "<bar>",
-      "language_id": "1",
-  }
-
-* Response:
-  201 Created
-
 Log
 ---
 

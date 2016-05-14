@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Log, NFCRegister
+from .models import Log
 
 
 class LogSerializer(serializers.ModelSerializer):
@@ -8,12 +8,3 @@ class LogSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Log
-
-
-class NFCRegisterSerializer(serializers.ModelSerializer):
-    """
-    Basic serializer to register NFC ids.
-    """
-
-    class Meta:
-        model = NFCRegister

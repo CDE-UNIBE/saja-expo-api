@@ -5,7 +5,6 @@ from django.utils.functional import cached_property
 from django.utils.timezone import now
 
 from .client import APIClient
-from .validators import validate_registered_nfc_id
 
 logger = logging.getLogger(__name__)
 
@@ -36,30 +35,6 @@ class APISubmitBase(models.Model):
         abstract = True
 
 
-class NFCRegister(APISubmitBase):
-    """
-    Relation between nfc and rucksack code is created when a new card is
-    registered at the front desk. Only the backpack id will be used for calls
-    to the external API.
-    """
-    created = models.DateTimeField(auto_now_add=True)
-    nfc_id = models.CharField(max_length=255, unique=True)
-    backpack_id = models.CharField(max_length=6, unique=True)
-    language_id = models.IntegerField()
-
-    @property
-    def endpoint(self):
-        return 'init'
-
-    @cached_property
-    def data(self):
-        return {
-            'code': self.backpack_id,
-            'nfcId': self.nfc_id,
-            'languageId': self.language_id,
-        }
-
-
 class Log(APISubmitBase):
     """
     Log all requests from the internal stands. Requests are then made to
@@ -72,9 +47,7 @@ class Log(APISubmitBase):
     Flag: aborted
     model method: external request (10 times)
     """
-    nfc_id = models.CharField(
-        max_length=255, validators=[validate_registered_nfc_id]
-    )
+    nfc_id = models.CharField(max_length=255)
     station_id = models.CharField(max_length=20)
 
     def __unicode__(self):
@@ -85,13 +58,9 @@ class Log(APISubmitBase):
         return 'init'
 
     @cached_property
-    def backpack_id(self):
-        return NFCRegister.objects.get(nfc_id=self.nfc_id)
-
-    @cached_property
     def data(self):
         return {
-            'code': self.backpack_id,
+            'code': self.nfc_id,
             'stationId': self.station_id
         }
 

@@ -2,8 +2,6 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
-import api.validators
-
 
 class Migration(migrations.Migration):
 
@@ -18,7 +16,7 @@ class Migration(migrations.Migration):
                 ('received', models.DateTimeField(auto_now_add=True)),
                 ('finished', models.DateTimeField(null=True, blank=True)),
                 ('history', models.TextField(default='', blank=True)),
-                ('nfc_id', models.CharField(validators=[api.validators.validate_registered_nfc_id], max_length=255)),
+                ('nfc_id', models.CharField(max_length=255)),
                 ('station_id', models.CharField(max_length=20)),
             ],
             options={

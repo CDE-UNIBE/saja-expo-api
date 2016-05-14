@@ -1,11 +1,9 @@
-from rest_framework.authentication import TokenAuthentication
 from rest_framework.generics import CreateAPIView
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.views import APIView
 
-from .serializers import LogSerializer, NFCRegisterSerializer
+from .serializers import LogSerializer
 
 
 class APIRoot(APIView):
@@ -35,8 +33,3 @@ class CreateLogView(CreateAPIView):
     # permission_classes = (IsAuthenticated, )
     serializer_class = LogSerializer
 
-
-class RegisterNFCView(CreateAPIView):
-    # authentication_classes = (TokenAuthentication, )
-    # permission_classes = (IsAuthenticated, )
-    serializer_class = NFCRegisterSerializer

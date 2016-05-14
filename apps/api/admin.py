@@ -1,12 +1,7 @@
 from django.contrib import admin
 from django.contrib.admin import register
 
-from .models import Log, NFCRegister
-
-
-@register(NFCRegister)
-class NFCRegisterAdmin(admin.ModelAdmin):
-    list_display = ('nfc_id', 'created', 'finished', )
+from .models import Log
 
 
 @register(Log)

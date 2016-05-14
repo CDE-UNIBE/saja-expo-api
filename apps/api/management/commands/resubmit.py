@@ -2,7 +2,7 @@ from datetime import timedelta
 from django.core.management.base import BaseCommand
 from django.utils.timezone import now
 
-from ...models import Log, NFCRegister
+from ...models import Log
 
 
 class Command(BaseCommand):
@@ -16,10 +16,6 @@ class Command(BaseCommand):
             'finished__isnull': True,
             'received__lte': now() - timedelta(minutes=5)
         }
-
-        registers = NFCRegister.objects.filter(**filters)
-        for register in registers:
-            register.submit_to_myswissalps()
 
         logs = Log.objects.filter(**filters)
         for log in logs:
