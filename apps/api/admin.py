@@ -6,4 +6,4 @@ from .models import Log
 
 @register(Log)
 class LogAdmin(admin.ModelAdmin):
-    list_display = ('id', 'received', 'finished', 'nfc_id', )
+    list_display = ('id', 'received', 'finished', 'backpack_id', )

@@ -17,7 +17,6 @@ class APIRoot(APIView):
 
     def get(self, request, format=None):
         urls = {
-            'register': reverse('register-nfc', request=request, format=format),
             'logs': reverse('log-create', request=request, format=format),
         }
         return Response(urls)

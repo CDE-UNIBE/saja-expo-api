@@ -47,7 +47,7 @@ class Log(APISubmitBase):
     Flag: aborted
     model method: external request (10 times)
     """
-    nfc_id = models.CharField(max_length=255)
+    backpack_url = models.CharField(max_length=255)
     station_id = models.CharField(max_length=20)
 
     def __unicode__(self):
@@ -60,9 +60,18 @@ class Log(APISubmitBase):
     @cached_property
     def data(self):
         return {
-            'code': self.nfc_id,
+            'backpackId': self.backpack_id,
             'stationId': self.station_id
         }
+
+    @property
+    def backpack_id(self):
+        """
+        Parse the id from the URL. tbd: structure of the url is unclear.
+
+        :return: string
+        """
+        return self.backpack_url
 
     class Meta:
         ordering = ['-received']

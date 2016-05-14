@@ -35,7 +35,7 @@ Example request:
 
 * Request body:
   {
-      "nfc_id": "<foo>",
+      "backpack_url": "<foo>",
       "station_id": "1"
   }
 
