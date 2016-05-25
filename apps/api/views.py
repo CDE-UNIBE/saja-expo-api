@@ -1,3 +1,5 @@
+import logging
+
 from rest_framework.generics import CreateAPIView
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
@@ -31,3 +33,12 @@ class CreateLogView(CreateAPIView):
     # authentication_classes = (TokenAuthentication, )
     # permission_classes = (IsAuthenticated, )
     serializer_class = LogSerializer
+
+    def handle_exception(self, exc):
+        """
+        Log all exceptions. A bad request (invalid data) indicates that a station submitted an invalid message.
+        """
+        logger = logging.getLogger(__name__)
+        logger.warn('Invalid request from a nfc tag station with following data: {data} (Exception: {exc})'.format(
+            data=self.request.data, exc=exc))
+        return super().handle_exception(exc)
