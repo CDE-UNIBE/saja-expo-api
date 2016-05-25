@@ -27,14 +27,19 @@ class APIClient:
         :return: An instance of class:`requests.model.Response`
 
         """
-        # todo: add exception handling.
+        headers = {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-Auth-Token': settings.MYSWISSALPS_API_TOKEN
+        }
+
         s = requests.Session()
         s.mount(self.url, HTTPAdapter(
             max_retries=settings.API_CALL_RETRIES)
         )
         try:
             response = s.request(
-                method='get',
+                method='post',
+                headers=headers,
                 url='{url}{endpoint}'.format(url=self.url, endpoint=endpoint),
                 data=data,
                 **kwargs
@@ -44,7 +49,7 @@ class APIClient:
             return False
 
         logger.info(u"{} {}: {}".format(
-            response.status_code, response.url, data)
+            response.status_code, response.url, response.content, data)
         )
         return response
 

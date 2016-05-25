@@ -167,6 +167,8 @@ class Common(Configuration):
         environ_prefix='',
         default='https://api.myswissalps.ch/v1/rucksack/'
     )
+    MYSWISSALPS_API_TOKEN = values.Value(environ_prefix='')
+
     API_CALL_RETRIES = values.IntegerValue(
         environ_prefix='',
         default=5

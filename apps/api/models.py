@@ -52,13 +52,13 @@ class Log(APISubmitBase):
 
     @property
     def endpoint(self):
-        return 'init'
+        return 'item'
 
     @cached_property
     def data(self):
         return {
-            'backpackId': self.backpack_id,
-            'stationId': self.station_id
+            'code': self.backpack_id,
+            'exhibitId': self.station_id
         }
 
     @property
