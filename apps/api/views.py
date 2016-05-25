@@ -31,4 +31,3 @@ class CreateLogView(CreateAPIView):
     # authentication_classes = (TokenAuthentication, )
     # permission_classes = (IsAuthenticated, )
     serializer_class = LogSerializer
-

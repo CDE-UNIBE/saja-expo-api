@@ -5,6 +5,8 @@ from django.utils.functional import cached_property
 from django.utils.timezone import now
 
 from .client import APIClient
+from .helpers import extract_backpack_id
+from .validators import is_url
 
 logger = logging.getLogger(__name__)
 
@@ -40,15 +42,10 @@ class Log(APISubmitBase):
     Log all requests from the internal stands. Requests are then made to
     the external API with a signal.
 
-    This will be modified at a later point (e.g. add booth id?), this skeleton
-    is the bare minimum.
-
-    Log: status responses
-    Flag: aborted
-    model method: external request (10 times)
+    The model validations ensure that the whole message was read properly on the nfc station.
     """
-    backpack_url = models.CharField(max_length=255)
-    station_id = models.CharField(max_length=20)
+    backpack_url = models.CharField(max_length=255, validators=[is_url])
+    station_id = models.PositiveIntegerField()
 
     def __unicode__(self):
         return self.id
@@ -67,11 +64,9 @@ class Log(APISubmitBase):
     @property
     def backpack_id(self):
         """
-        Parse the id from the URL. tbd: structure of the url is unclear.
-
-        :return: string
+        :return: string; backpack_id with 4 digits.
         """
-        return self.backpack_url
+        return extract_backpack_id(self.backpack_url)
 
     class Meta:
         ordering = ['-received']
