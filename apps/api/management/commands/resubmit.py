@@ -9,7 +9,7 @@ class Command(BaseCommand):
     """
     Simple command to resubmit logs. Execute this as a crontab.
     """
-    help = 'Re-submit logs that were not yet submitted to myswissalps.'
+    help = 'Submit logs that were not yet submitted to myswissalps.'
 
     def handle(self, *args, **options):
         filters = {
