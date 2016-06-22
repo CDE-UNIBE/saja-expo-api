@@ -1,0 +1,4 @@
+#!/bin/bash
+# activate virtualenv, run migrations and touch uwsgi to reload the application server.
+
+. ../../.virtualenvs/saja-expo-api/bin/activate && cd .. && python manage.py migrate && touch serverconfig/uwsgi.ini
