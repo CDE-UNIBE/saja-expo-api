@@ -9,6 +9,8 @@ class Common(Configuration):
     Basic configuration
     """
 
+    ALLOWED_HOSTS = values.ListValue(default=['localhost', '127.0.0.1'])
+
     BASE_DIR = dirname(dirname(dirname(abspath(__file__))))
 
     INSTALLED_APPS = (

@@ -4,9 +4,7 @@ Internal API for communication between the expo and myswissalps.
 
 # Prerequisites
 - [virtualenv](https://virtualenv.pypa.io/en/latest/)
-- If a proper database should be used:
-    - [postgresql](http://www.postgresql.org/)
-    - A file-based storage is used by default.
+- A file-based storage is used by default.
 
 # Initialize the project
 Create and activate a virtualenv:
@@ -41,7 +39,7 @@ python manage.py createsuperuser
 
 Set the environment variables:
 
-- envs/DATABASE_URL = ```sqlite:///<some-local-path>```. 
+- envs/DATABASE_URL = ```sqlite:////<some-local-path>```.
   (For a proper database, refer to [dj-database-url](https://github.com/kennethreitz/dj-database-url))
 - envs/API_URL = ```dev.myswissalps.ch```
 
