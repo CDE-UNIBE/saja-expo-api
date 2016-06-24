@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# * Launch "crontab -e" and add the script:
+# * Launch "crontab -u www-data -e" and add the script:
 #
 # Important:
 # - Ensure that the file has the execute bit set.
