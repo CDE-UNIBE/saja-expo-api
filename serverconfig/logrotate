@@ -1,0 +1,10 @@
+/var/log/uwsgi/app/*.log /srv/wnf-proxy-app/app/logs/*.log {
+    daily
+    rotate 5
+    compress
+    delaycompress
+    missingok
+    notifempty
+    size 3M
+}
+
