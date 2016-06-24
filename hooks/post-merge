@@ -1,4 +1,7 @@
 #!/bin/bash
 # activate virtualenv, run migrations and touch uwsgi to reload the application server.
-
-. ../../.virtualenvs/saja-expo-api/bin/activate && cd .. && python manage.py migrate && touch serverconfig/uwsgi.ini
+echo "updating proxy app"
+source /srv/wnf-proxy-app/env/bin/activate && \
+python /srv/wnf-proxy-app/app/manage.py migrate && \
+touch /srv/wnf-proxy-app/app/serverconfig/uwsgi.ini && \
+sudo service nginx restart
