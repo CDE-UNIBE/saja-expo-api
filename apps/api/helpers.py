@@ -6,18 +6,22 @@ def extract_backpack_id(value):
     Extract the last four chars of given string. Allow only values in the format: "myswissalps.ch/rucksack/7g8h".
     :return: string
     """
+    message = 'Invalid format of the backpack_url'
     try:
         elements = value.split('/')
     except AttributeError:
-        raise ValidationError('Invalid format of the backpack_url')
+        raise ValidationError(message)
 
-    if not all([
-        validate_length(*elements),
-        validate_domain(elements[0]),
-        validate_slug(elements[1]),
-        validate_backpack_id_length(elements[2])
-    ]):
-        raise ValidationError('Invalid format of the backpack_url')
+    try:
+        if not all([
+            validate_length(*elements),
+            validate_domain(elements[0]),
+            validate_slug(elements[1]),
+            validate_backpack_id_length(elements[2])
+        ]):
+            raise ValidationError(message)
+    except IndexError:
+        raise ValidationError(message)
 
     return elements[-1]
 

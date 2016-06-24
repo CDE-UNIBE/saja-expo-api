@@ -3,5 +3,5 @@
 echo "updating proxy app"
 source /srv/wnf-proxy-app/env/bin/activate && \
 python /srv/wnf-proxy-app/app/manage.py migrate && \
-touch /srv/wnf-proxy-app/app/serverconfig/uwsgi.ini && \
+sudo service uwsgi restart && \
 sudo service nginx restart
