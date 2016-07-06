@@ -1,6 +1,6 @@
 #!/bin/bash
 # activate virtualenv, run migrations and touch uwsgi to reload the application server.
-echo `date "+%F %T"` "Starting App update with git.."
+# echo `date "+%F %T"` "Starting App update with git.."
 APP_BASE=/srv/wnf-proxy-app
 APP_HOME=${APP_BASE}/app
 echo "updating proxy app"
@@ -9,4 +9,4 @@ git pull origin master
 source /srv/wnf-proxy-app/env/bin/activate  && python /srv/wnf-proxy-app/app/manage.py migrate
 sudo service uwsgi restart  
 sudo service nginx restart
-echo `date "+%F %T"` "App update done"
+# echo `date "+%F %T"` "App update done"
