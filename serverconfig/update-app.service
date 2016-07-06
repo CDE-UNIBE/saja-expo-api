@@ -1,10 +1,9 @@
 [Unit]
 Description="Updating the saja apps automatically on startup"
-
-[Service]
-Type=simple
 Wants=network-online.target
 After=network-online.target
+
+[Service]
 ExecStart=/srv/wnf-proxy-app/app/serverconfig/update-app.sh > /var/log/app-update.log 2>&1
 
 
