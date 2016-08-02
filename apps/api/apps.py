@@ -8,5 +8,5 @@ class APIConfig(AppConfig):
     name = 'api'
     verbose_name = "API"
 
-    def ready(self):
-        from .signals import send_to_external_api  # noqa
+    # def ready(self):
+    #    from .signals import send_to_external_api  # noqa
