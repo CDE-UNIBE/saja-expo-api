@@ -14,7 +14,6 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         filters = {
             'finished__isnull': True,
-            'received__lte': now() - timedelta(minutes=5)
         }
 
         logs = Log.objects.filter(**filters)
